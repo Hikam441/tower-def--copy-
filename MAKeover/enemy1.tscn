@@ -1,0 +1,79 @@
+[gd_scene load_steps=10 format=3 uid="uid://bqr8arj2s3ou5"]
+
+[ext_resource type="Texture2D" uid="uid://dhvmjhj28g7li" path="res://Assets/enemies/dino1.png" id="1_h3ctc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g1mjo"]
+radius = 7.0
+height = 18.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1mtg6"]
+atlas = ExtResource("1_h3ctc")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_akkft"]
+atlas = ExtResource("1_h3ctc")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xcyh8"]
+atlas = ExtResource("1_h3ctc")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wokmu"]
+atlas = ExtResource("1_h3ctc")
+region = Rect2(168, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1mdj3"]
+atlas = ExtResource("1_h3ctc")
+region = Rect2(192, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6f21"]
+atlas = ExtResource("1_h3ctc")
+region = Rect2(216, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f6u6x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1mtg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_akkft")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xcyh8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wokmu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1mdj3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b6f21")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="Character1" type="CharacterBody2D" groups=["enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.9999998, -41.999996)
+scale = Vector2(5, 5)
+shape = SubResource("CapsuleShape2D_g1mjo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0.99999994, -43.999996)
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_f6u6x")
+frame_progress = 0.9272855
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1

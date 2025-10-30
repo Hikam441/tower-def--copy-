@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dh86omwgdteqf"]
+
+[ext_resource type="Script" uid="uid://b0i4dnxqjkrg8" path="res://MAKeover/bl.gd" id="1_aa13q"]
+[ext_resource type="SpriteFrames" uid="uid://tfa84xobhtyj" path="res://Assets/bullets/bullet1.tres" id="1_tcw4c"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aa13q"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ryvmi"]
+radius = 5.0
+
+[node name="bl" type="CharacterBody2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_aa13q")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+sprite_frames = ExtResource("1_tcw4c")
+autoplay = "default"
+frame_progress = 0.904236
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_aa13q")
+disabled = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ryvmi")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

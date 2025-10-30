@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://c6fm52y702q6s"]
+
+[ext_resource type="Texture2D" uid="uid://bly5mr7ebmowh" path="res://Assets/jalan dagoroad2.png" id="1_ty1vk"]
+[ext_resource type="Texture2D" uid="uid://bo18c0vwfx4fo" path="res://Assets/jalan dago.png" id="2_uopqb"]
+[ext_resource type="Texture2D" uid="uid://bgr73l4pbb8r2" path="res://icon.svg" id="3_n6anf"]
+[ext_resource type="PackedScene" uid="uid://bqr8arj2s3ou5" path="res://MAKeover/enemy1.tscn" id="4_7c3k0"]
+[ext_resource type="PackedScene" uid="uid://d0q87q638srs2" path="res://MAKeover/turret.tscn" id="4_uopqb"]
+[ext_resource type="Script" uid="uid://ds4kf2ymqgdii" path="res://MAKeover/enemy_1.gd" id="5_fhu02"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_673p3"]
+vertices = PackedVector2Array(50.960938, 177.78125, 48.03125, 1107.8281, -66.92969, 1095.0469, -60.929688, 243, -350.95313, 168.78125, -437, 243, -437, -546.7969, -354.04688, -453.78125, -63.9375, -539.8125, 51, -462.78125, 51, -1098.5469, -66.9375, -1093.4219)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3, 5), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(7, 6, 8, 9), PackedInt32Array(10, 9, 8, 11)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-71, 253, -447, 253, -447, -557, -74, -550, -77, -1103, 61, -1109, 61, -453, -344, -444, -341, 159, 61, 168, 58, 1119, -77, 1104)])
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture = ExtResource("1_ty1vk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_uopqb")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(0, -1049)
+texture = ExtResource("3_n6anf")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_673p3")
+
+[node name="turret" parent="." instance=ExtResource("4_uopqb")]
+position = Vector2(-132, 557)
+
+[node name="Character1" parent="." instance=ExtResource("4_7c3k0")]
+position = Vector2(2, 1064)
+script = ExtResource("5_fhu02")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.265, 0.265)

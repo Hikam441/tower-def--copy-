@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0q87q638srs2"]
+
+[ext_resource type="Script" uid="uid://cpuj0iy510dg6" path="res://turret.gd" id="1_i2gk0"]
+[ext_resource type="Texture2D" uid="uid://83kim8fm0f2s" path="res://Assets/turrets/technoturret.png" id="2_ttto3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7j78v"]
+radius = 34.234486
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_i2gk0"]
+radius = 307.23444
+
+[node name="StaticBody2D" type="StaticBody2D"]
+script = ExtResource("1_i2gk0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(5, 5)
+texture = ExtResource("2_ttto3")
+offset = Vector2(3.66, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_7j78v")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_i2gk0")
+
+[connection signal="body_entered" from="Area2D" to="." method="enemy_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="enemy_exit"]
