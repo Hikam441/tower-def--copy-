@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx4msceie8aj8"]
+
+[sub_resource type="GDScript" id="GDScript_7pcnp"]
+script/source = "extends Node2D
+class_name Spawner
+
+@onready var path_enemy = \"res://MAKeover/enemy1.tscn\"
+var intr_spawn = 0.5
+var max_spawn = 2
+var maxintr
+
+func _ready() -> void:
+	maxintr = intr_spawn
+	pass
+func _process(delta: float) -> void:
+	if intr_spawn > 0 :
+		
+		intr_spawn -= delta 
+	elif intr_spawn <= 0 : 
+		intr_spawn = maxintr 
+		if max_spawn > 0:
+			print(intr_spawn)
+			var enemy = load(path_enemy).instantiate()
+			add_child(enemy)
+			max_spawn -= 1
+		
+		
+"
+
+[node name="spawer" type="Node2D"]
+script = SubResource("GDScript_7pcnp")

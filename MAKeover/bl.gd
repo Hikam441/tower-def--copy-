@@ -8,7 +8,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if goal:
+	if ! get_node(goal): pass
+	elif goal:
 		var goal = get_node(goal).global_position
 		vell = position.direction_to(goal).normalized()
 
@@ -19,6 +20,6 @@ func _process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemy"):
-		body.damage(10)
+		body.damage(80)
 		queue_free()
 	pass # Replace with function body.
