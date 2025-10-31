@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqr8arj2s3ou5"]
+[gd_scene load_steps=11 format=3 uid="uid://bqr8arj2s3ou5"]
 
+[ext_resource type="Script" uid="uid://ds4kf2ymqgdii" path="res://MAKeover/enemy_1.gd" id="1_g1mjo"]
 [ext_resource type="Texture2D" uid="uid://dhvmjhj28g7li" path="res://Assets/enemies/dino1.png" id="1_h3ctc"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g1mjo"]
@@ -62,6 +63,7 @@ animations = [{
 }]
 
 [node name="Character1" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_g1mjo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(2.9999998, -41.999996)
@@ -77,3 +79,11 @@ frame_progress = 0.9272855
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_postprocessing = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+modulate = Color(1, 0.13816993, 0, 1)
+offset_left = -60.0
+offset_top = -119.0
+offset_right = 71.0
+offset_bottom = -92.0
+value = 100.0

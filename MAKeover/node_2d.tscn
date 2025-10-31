@@ -1,18 +1,91 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6fm52y702q6s"]
+[gd_scene load_steps=9 format=3 uid="uid://c6fm52y702q6s"]
 
 [ext_resource type="Texture2D" uid="uid://bly5mr7ebmowh" path="res://Assets/jalan dagoroad2.png" id="1_ty1vk"]
 [ext_resource type="Texture2D" uid="uid://bo18c0vwfx4fo" path="res://Assets/jalan dago.png" id="2_uopqb"]
 [ext_resource type="Texture2D" uid="uid://bgr73l4pbb8r2" path="res://icon.svg" id="3_n6anf"]
-[ext_resource type="PackedScene" uid="uid://bqr8arj2s3ou5" path="res://MAKeover/enemy1.tscn" id="4_7c3k0"]
 [ext_resource type="PackedScene" uid="uid://d0q87q638srs2" path="res://MAKeover/turret.tscn" id="4_uopqb"]
-[ext_resource type="Script" uid="uid://ds4kf2ymqgdii" path="res://MAKeover/enemy_1.gd" id="5_fhu02"]
+[ext_resource type="PackedScene" uid="uid://cx4msceie8aj8" path="res://MAKeover/spawer.tscn" id="5_ty1vk"]
+
+[sub_resource type="GDScript" id="GDScript_ty1vk"]
+script/source = "extends Node2D
+var gold = 200
+var hp = 20
+var inter_timer = 1
+var spawner = []
+var current_wave= 0
+var level_detail:Dictionary={
+	0: {
+		\"timer\" : 10,
+		0:{\"spawn\": 2, \"delay\": 0.5}
+	},
+	1: {
+		\"timer\" : 12,
+		0:{\"spawn\": 6, \"delay\": 0.5}
+	},
+	2: {
+		\"timer\" : 15,
+		0:{\"spawn\": 12, \"delay\": 0.3}
+	}
+}
+
+@onready var gold_text = $CanvasLayer/gold
+@onready var hp_text = $CanvasLayer/hp
+@onready var timer_text = $CanvasLayer/timer
+
+func _ready() -> void:
+	gold_text.text = str(gold)
+	hp_text.text = str(hp)
+	for a in get_children():
+		to_string().to_lower()
+		if a.is_in_group(\"spawner\"):
+			print(a)
+			spawner.append(a)
+	if level_detail:
+		inter_timer = level_detail[0][\"timer\"]
+	
+func _process(delta: float) -> void:
+	if current_wave == -1:
+		pass
+	elif inter_timer > 0: 
+	
+		inter_timer -= delta
+	elif inter_timer <= 0: 
+		current_wave += 1
+		if current_wave == level_detail.keys().size():
+			current_wave= -1
+			return
+		inter_timer = 12
+		for a in spawner :
+			var b = spawner.find(a)
+			var spawn = level_detail[current_wave][b][\"spawn\"]
+			var delay = level_detail[current_wave][b][\"delay\"]
+			spawner[b].new_wave(spawn,delay)
+	timer_text.text = str(inter_timer)
+	pass 
+	
+func add_gold(gold_in,id,path):
+	if path :
+		get_node(path).enemy_slain(id)
+	gold += gold_in 
+	gold_text.text = str(gold)
+	
+func hp_decrease(value):
+	hp -= value
+	hp_text.text = str(hp)
+	
+	
+"
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_673p3"]
 vertices = PackedVector2Array(50.960938, 177.78125, 48.03125, 1107.8281, -66.92969, 1095.0469, -60.929688, 243, -350.95313, 168.78125, -437, 243, -437, -546.7969, -354.04688, -453.78125, -63.9375, -539.8125, 51, -462.78125, 51, -1098.5469, -66.9375, -1093.4219)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 0, 3, 5), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(7, 6, 8, 9), PackedInt32Array(10, 9, 8, 11)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-71, 253, -447, 253, -447, -557, -74, -550, -77, -1103, 61, -1109, 61, -453, -344, -444, -341, 159, 61, 168, 58, 1119, -77, 1104)])
 
+[sub_resource type="LabelSettings" id="LabelSettings_uopqb"]
+font_size = 50
+
 [node name="Node2D" type="Node2D"]
+script = SubResource("GDScript_ty1vk")
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 texture = ExtResource("1_ty1vk")
@@ -26,14 +99,14 @@ position = Vector2(0, -1049)
 texture = ExtResource("3_n6anf")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_673p3")
 
 [node name="turret" parent="." instance=ExtResource("4_uopqb")]
 position = Vector2(-132, 557)
 
-[node name="Character1" parent="." instance=ExtResource("4_7c3k0")]
-position = Vector2(2, 1064)
-script = ExtResource("5_fhu02")
+[node name="turret2" parent="." instance=ExtResource("4_uopqb")]
+position = Vector2(172, 407)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.265, 0.265)
@@ -41,3 +114,32 @@ zoom = Vector2(0.265, 0.265)
 [node name="Sprite2D4" type="Sprite2D" parent="."]
 position = Vector2(242, -1057)
 texture = ExtResource("3_n6anf")
+
+[node name="spawer" parent="." groups=["spawner"] instance=ExtResource("5_ty1vk")]
+position = Vector2(-5, 1079)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="timer" type="Label" parent="CanvasLayer"]
+offset_left = 477.0
+offset_top = 26.0
+offset_right = 560.0
+offset_bottom = 95.0
+text = "ggg"
+label_settings = SubResource("LabelSettings_uopqb")
+
+[node name="gold" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "ggg"
+label_settings = SubResource("LabelSettings_uopqb")
+
+[node name="hp" type="Label" parent="CanvasLayer"]
+offset_left = 14.0
+offset_top = 103.0
+offset_right = 97.0
+offset_bottom = 172.0
+text = "ggggg"
+label_settings = SubResource("LabelSettings_uopqb")
+
+[node name="Timer" type="Timer" parent="."]
